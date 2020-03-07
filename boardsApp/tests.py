@@ -4,6 +4,12 @@ from .views import home, board_topics
 from .models import Board
 
 class HomeTests(TestCase):
+
+    def setup(self):
+        self.board = Board.objects.create(name='Django',description='Django board')
+        url = reverse('home')
+        self.response = self.client.get(url)
+
     #Testing the status code of the response is 200 (success)
     def test_home_view_status_code(self):
         url = reverse('home')
@@ -15,6 +21,12 @@ class HomeTests(TestCase):
         view = resolve('/')
         self.assertEquals(view.func, home)
 
+    #Using assertcontains to test if the response body 
+    #contains a given text
+    def test_home_view_contains_link_to_topics_page(self):
+        board_topics_url = reverse('board_topics', kwargs={'pk': self.board.pk})
+        self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))    
+
 class BoardTopicTest(TestCase):
     #Prepare the environment to run the test, so to simulate a scenario
     def setup(self):
@@ -25,7 +37,7 @@ class BoardTopicTest(TestCase):
     def test_board_topics_view_success_status_code(self):
         url = reverse('board_topics', kwargs={'pk': 1})
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        self.assertEquals(response.status_code, 200)
     
     #Testing if Django is returning a status code 404 (page not found)
     #for a board that doesn't exist in the database'
