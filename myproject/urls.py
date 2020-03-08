@@ -20,4 +20,15 @@ from boardsApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name = 'home'),
+    path('boards/<int:pk>/', views.board_topics, name='board_topics'),
+    path('boards/<int:pk>/new/', views.new_topic, name='board_topics'),
+    path('about/', views.about, name = 'about'),
+    path('about/company/', views.about_company, name = 'about_company'),
+    # path('about/author/', views.about_author, name = 'about_author'),
+    # path('about/author/ferirog/', views.about_ferirog, name = 'about_ferirog'),
+    # path('about/author/ihwanes', views.about_ihwanes, name = 'about_ihwanes'),
+    # path('privacy/', views.privacy, name = 'privacy'),
+    # path('(?P<username>[\w.@+-]+)/', views.user_profile, name='user_profile'),
+
+    # path('^boards/(?P<pk>\d+)/$', views.board_topics, name= 'board_topics'),
 ]
